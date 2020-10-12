@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col-6">
+            <h1 class="text-center">Posts</h1>
+            </br>
+            {% for post in posts %}
+            <a href="{% url 'post_detail' pk=post.pk %}" style="text-decoration: none; color: inherit;">
+                <div class="card border-light text-center">
+                    <div class="card-header"><h2>{{ post.title }}</h2></div>
+                    <div class="card-body">
+                        <h5 class="card-title">Published: {{ post.published_date }}</h5>
+                        <p class="card-text">{{ post.text|linebreaksbr }}</p>
+                        <p class="card-text">Comments: {{ post.approved_comments.count }}</p>
+                    </div>
+                </div>
+            </a>
+            </br>   
+            {% endfor %}
+        </div>
+        <div class="col">
+        </div>
+    </div>
+</div>
+
+{% endblock %}

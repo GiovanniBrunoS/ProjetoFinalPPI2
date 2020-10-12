@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row-12">
+    <div class="col-12">
+        <div class="col-12">
+            </br>
+            <h1 class="text-center">Detalhes do Manga</h1>
+            </br>
+        </div>
+        {% if manga %}
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                </div>
+                <div class="col-6">
+
+                    <div class="card text-left">
+                        <div class="card-header">
+                            <h2><strong>Título: </strong>{{manga.title}}</h2>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title"><strong>Autor: </strong>{{manga.author}}</h4>
+                            <h4 class="card-title"><strong>Artista: </strong>{{manga.artist}}</h4>
+                            <p class="card-text"><strong>Descrição: </strong>{{manga.description}}</p>
+                        </div>
+                    </div>
+                    {% if user.is_authenticated %}
+                    </br>
+                    <div class="row text-center">
+                        <div class="col">
+                            <a class="btn btn-default btn-success" href="{% url 'chapter_new' pk=manga.pk %}"><span
+                                    class="material-icons">add</span></a> Novo Capítulo
+                        </div>
+                        <div class="col">
+                            <a class="btn btn-default btn-warning" href="{% url 'manga_edit' pk=manga.pk %}"><span
+                                    class="material-icons">create</span></a> Editar
+                        </div>
+                        <div class="col">
+                            <a class="btn btn-default btn-danger" href="{% url 'manga_remove' pk=manga.pk %}"><span
+                                    class="material-icons">delete</span></a> Remover
+                        </div>
+                    </div>
+                    {% endif %}
+                    </br>
+                    <h1 class="text-center">Capítulos</h1>
+                    </br>
+                    {% for chapter in chapters %}
+                    <a href="{% url 'reader' manga.pk chapter.pk %}" style="text-decoration: none; color: inherit;">
+                        <div class="card border-light text-center">
+                            <div class="card-body">
+                                <h4 class="card-title">Capítulo: {{chapter.chapter_number}} - {{chapter.title}}</h4>
+                                <p class="card-text">Idioma: {{chapter.language}} / Upload: {{chapter.created_date}}
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                    </br>
+                    {% endfor %}
+                    {% else %}
+                    <p>Não há mangas disponiveis</p>
+                    {% endif %}
+                </div>
+                <div class="col">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

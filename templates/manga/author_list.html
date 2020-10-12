@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col-6">
+            <h1 class="text-center">Lista de Autores</h1>
+            </br>
+            {% if author_list %}
+            {% for author in author_list%}
+            <a href="{% url 'author_edit' pk=author.pk %}" style="text-decoration: none; color: inherit;">
+                <div class="card border-light text-center">
+                    <div class="card-header"><h1>{{author.name}}</h1></div>
+                    <a class="btn btn-default btn-danger" href="{% url 'author_remove' pk=author.pk %}"><span
+                        class="material-icons">delete</span></a>
+                </div>
+            </a>
+            </br>
+            {% endfor %}
+            {% else %}
+            <p>Não há autores disponiveis</p>
+            {% endif %}
+        </div>
+        <div class="col">
+        </div>
+    </div>
+</div>
+
+{% endblock %}
