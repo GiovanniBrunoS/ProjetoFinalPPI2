@@ -163,6 +163,6 @@ def chapter_new(request, pk):
 
 def reader(request, mangapk, chapterpk):
     chapter = get_object_or_404(MangaChapter, pk=chapterpk)
-    pages = MangaPage.objects.filter(manga_chapter=chapter)
+    pages = MangaPage.objects.filter(manga_chapter=chapter).order_by('page_number')
 
     return render(request, 'manga/reader.html', {'pages': pages, 'chapter': chapter})
