@@ -102,7 +102,7 @@ def manga_list(request):
 
 def manga_detail(request, pk):
     manga = get_object_or_404(Manga, pk=pk)
-    chapters = MangaChapter.objects.filter(manga=manga)
+    chapters = MangaChapter.objects.filter(manga=manga).order_by('chapter_number')
         
     return render(request, 'manga/manga_detail.html', {'manga': manga, 'chapters':chapters})
 
