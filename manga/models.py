@@ -1,4 +1,4 @@
-import os, logging
+import os, logging, re
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
@@ -65,7 +65,6 @@ class MangaChapter(models.Model):
         super(MangaChapter, self).save(*args, **kwargs)
         if self.chapter:
             zip_file = ZipFile(self.chapter)
-            count = 0
             for name in zip_file.namelist():
                 data = zip_file.read(name)
                 try:
@@ -79,11 +78,13 @@ class MangaChapter(models.Model):
                     pass
                 except:
                     continue
+                number = os.path.split(name)[1]
+                number = number.split(".")[0]
+                number = re.sub("[^0-9]", "", number)
                 name = os.path.split(name)[1]
                 path = "manga/%s/%s/%s/%s" % (str(self.manga.pk), self.language, self.chapter_number, name)
                 saved_path = default_storage.save(path, ContentFile(data))
-                count = count + 1
-                mp = MangaPage(manga_chapter=self, page_number=count, page=saved_path)
+                mp = MangaPage(manga_chapter=self, page_number=number, page=saved_path)
                 mp.save()
             zip_file.close()
             self.chapter.delete()
